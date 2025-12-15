@@ -120,3 +120,124 @@ def wszystkie(fun, lst):
         if not fun(x):
             return False
     return True
+
+
+def rzymski_na_arabski(napis):
+    roman_values = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+    total = 0
+    i = 0
+
+    # Zabezpieczenie na wypadek pustego napisu
+    if not napis:
+        return 0
+
+    while i < len(napis) - 1:
+        val1 = roman_values[napis[i]]
+        val2 = roman_values[napis[i + 1]]
+
+        if val1 >= val2:
+            total += val1
+        else:
+            total -= val1
+        i += 1
+
+    total += roman_values[napis[-1]]
+    return total
+
+
+class Wektor:
+    def __init__(self, lista):
+        self.dane = lista
+
+    def __str__(self):
+        return str(self.dane)
+
+    def __add__(self, other):
+        wynik = []
+
+        dlugosc_ja = len(self.dane)
+        dlugosc_on = len(other.dane)
+
+        # Ręczne wyznaczanie maksimum (zamiast funkcji max())
+        if dlugosc_ja > dlugosc_on:
+            limit = dlugosc_ja
+        else:
+            limit = dlugosc_on
+
+        # Pętla wykonuje się tyle razy, ile ma dłuższy wektor
+        for i in range(limit):
+
+            # Pobieranie z pierwszego wektora (self)
+            if i < dlugosc_ja:
+                wynik.append(self.dane[i])
+            else:
+                wynik.append(0)  # Dopełnienie zerem, gdy zabraknie liczb
+
+            # Pobieranie z drugiego wektora (other)
+            if i < dlugosc_on:
+                wynik.append(other.dane[i])
+            else:
+                wynik.append(0)  # Dopełnienie zerem
+
+        return Wektor(wynik)
+
+
+# grupa czwarta
+
+def generator_slow(liczba):
+    slownik_cyfr = {
+        '0': 'zero',
+        '1': 'jeden',
+        '2': 'dwa',
+        '3': 'trzy',
+        '4': 'cztery',
+        '5': 'pięć',
+        '6': 'sześć',
+        '7': 'siedem',
+        '8': 'osiem',
+        '9': 'dziewięć'
+    }
+    napis = str(liczba)
+
+    for znak in napis:
+        yield slownik_cyfr[znak]
+
+
+from abc import ABC, abstractmethod
+class Figura(ABC):
+    licznik = 0
+    def __init__(self):
+        #super().__init__()
+        Figura.licznik +=1
+
+    @abstractmethod
+    def obwod(self):
+        pass
+
+class Prostokat(Figura):
+    licznik = 0
+    def __init__(self, bok_a, bok_b):
+        super().__init__()
+        Prostokat.licznik +=1
+        self.bok_a = bok_a
+        self.bok_b = bok_b
+
+    def obwod(self):
+        return 2 * (self.bok_a + self.bok_b)
+
+def sumuj_krotki(krotki):
+    return [k[0] + k[1] for k in krotki]
+
+def znajdz_litere(text, litera):
+    wynik = []
+    for idx, char in enumerate(text):
+        if char == litera:
+            wynik.append(idx)
+    return wynik
+
+
+def sprawdz(func, lst):
+    for x in lst:
+        if func(x):
+            return True
+    return False
