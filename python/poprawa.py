@@ -1,7 +1,7 @@
 # moja grupa
 
 def func_map(func, lista):
-    return [func[x] for x in lista]
+    return [func(x) for x in lista]
 
 class Kwadraty:
     def __init__(self, start, end=None):
@@ -26,6 +26,8 @@ class Kwadraty:
 def sumuj_napisy(*args):
     return [" ".join(para) for para in args]
     #return [f"{imie} {nazwisko}" for imie, nazwisko in pary]
+
+print(sumuj_napisy( ("Jan", "Kowalski"), ("Anna", "Nowak") ))
 
 
 def podaj_numery(slownik, szukane_nazwisko):
@@ -82,7 +84,6 @@ class Slownie:
         return self
 
     def __next__(self):
-        # 1. Warunek końca danych (koniec napisu)
         if self.current >= len(self.napis):
             raise StopIteration
 
@@ -92,10 +93,30 @@ class Slownie:
         if znak not in self.mapa:
             raise StopIteration
 
-        # 3. Zwracanie wyniku i inkrementacja
         wynik = self.mapa[znak]
         self.current += 1
         return wynik
+
+
+numbers = {
+    '0': 'zero ',
+    '1': 'jeden ',
+    '2': 'dwa ',
+    '3': 'trzy ',
+    '4': 'cztery ',
+    '5': 'pięć ',
+    '7': 'siedem ',
+    '8': 'osiem ',
+    '9': 'dziewięć '
+}
+
+word = str(input("enter a number: "))
+result = ''
+for char in word:
+    if char in numbers:
+        result += numbers[char]
+
+print(result)
 
 
 # trzecia grupa
@@ -108,10 +129,10 @@ def znajdz_najmniejszy_indeks(lst):
     if not lst:
         return -1
     min_idx = 0
-    najmniejsza_wartosc = lst[0]
+    min_wartosc = lst[0]
     for idx, wartosc in enumerate(lst):
-        if wartosc < najmniejsza_wartosc:
-            najmniejsza_wartosc =wartosc
+        if wartosc < min_wartosc:
+            min_wartosc =wartosc
             min_idx = idx
     return min_idx
 
@@ -147,35 +168,34 @@ def rzymski_na_arabski(napis):
 
 class Wektor:
     def __init__(self, lista):
-        self.dane = lista
+        self.lista = lista
 
     def __str__(self):
-        return str(self.dane)
+        return str(self.lista)
 
     def __add__(self, other):
         wynik = []
 
-        dlugosc_ja = len(self.dane)
-        dlugosc_on = len(other.dane)
+        dl_self = len(self.lista)
+        dl_other = len(other.lista)
 
-        # Ręczne wyznaczanie maksimum (zamiast funkcji max())
-        if dlugosc_ja > dlugosc_on:
-            limit = dlugosc_ja
+        if dl_self > dl_other:
+            limit = dl_self
         else:
-            limit = dlugosc_on
+            limit = dl_other
 
         # Pętla wykonuje się tyle razy, ile ma dłuższy wektor
         for i in range(limit):
 
             # Pobieranie z pierwszego wektora (self)
-            if i < dlugosc_ja:
-                wynik.append(self.dane[i])
+            if i < dl_self:
+                wynik.append(self.lista[i])
             else:
                 wynik.append(0)  # Dopełnienie zerem, gdy zabraknie liczb
 
             # Pobieranie z drugiego wektora (other)
-            if i < dlugosc_on:
-                wynik.append(other.dane[i])
+            if i < dl_other:
+                wynik.append(other.lista[i])
             else:
                 wynik.append(0)  # Dopełnienie zerem
 
@@ -225,7 +245,7 @@ class Prostokat(Figura):
     def obwod(self):
         return 2 * (self.bok_a + self.bok_b)
 
-def sumuj_krotki(krotki):
+def sumuj_krotki2(krotki):
     return [k[0] + k[1] for k in krotki]
 
 def znajdz_litere(text, litera):
